@@ -17,7 +17,7 @@
 
 <!--Header-part-->
 <div id="header">
-  <h1><a href="dashboard.html">Item Form</a></h1>
+  <h1><a href="dashboard.html">Delete Vendor</a></h1>
 </div>
 <!--close-Header-part--> 
 
@@ -48,8 +48,8 @@
 <div id="content">
 <!--breadcrumbs-->    
   <div id="content-header">
-    <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="addItem.html">Add Item</a> <a href="itemForm.html" class="current">Item Form</a> </div>
-    <h1>Item Form</h1>
+    <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="addVendor.html">Add Vendor</a> <a href="deleteVendor.html" class="current">Delete Vendor</a> </div>
+    <h1>Delete Vendor</h1>
   </div>
 <!--breadcrumbs-->    
   <div class="container-fluid"><hr>
@@ -60,29 +60,21 @@
             <h5>Item Information</h5>
           </div>
           <div class="widget-content nopadding">
-            <form class="form-horizontal" method="post" action="#">
+              
+              
+            <form class="form-horizontal" id="delete" name="delete">
               <div class="control-group">
-                <label class="control-label">Product</label>
+                <label class="control-label">ID</label>
                 <div class="controls">
-                  <input type="text" name="required" id="required">
+                  <input type="text" id="id" name="id">
                 </div>
               </div>
-              <div class="control-group">
-                <label class="control-label">Strength</label>
-                <div class="controls">
-                  <input type="text" name="required" id="required">
-              </div>
-              </div>
-              <div class="control-group">
-                <label class="control-label">Packaging</label>
-                <div class="controls">
-                  <input type="text" name="required" id="required">
-              </div>
-              </div> 
               <div class="form-actions">
                 <input type="submit" value="Submit" class="btn btn-success">
               </div>
             </form>
+              
+              
           </div>
         </div>
       </div>
@@ -91,6 +83,28 @@
 </div>
 <!--main-container-part-->    
 
+<script type="text/javascript" src="js/jquery.js"></script> 
+<script type="text/javascript">
+$(document).ready(function(){
+   $('#delete').submit(function(){
+    if ($.trim($("#id").val()) === "" ){
+    return false;
+    }   
+      var id= $('#id').val();
+      var deleteURL= "http://localhost:8000/vendor/" + id;
+    $.ajax({
+    url: deleteURL,
+    type: 'DELETE',
+    success: function(result) {
+        alert("Vendor Deleted. Please check for confirmation!!!");
+        }, 
+        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+        alert(textStatus);
+        }
+      }); 
+   });  
+});    
+</script>
 
 <script src="js/jquery.min.js"></script> 
 <script src="js/jquery.ui.custom.js"></script> 

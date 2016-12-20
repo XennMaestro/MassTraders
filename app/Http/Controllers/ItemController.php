@@ -42,8 +42,7 @@ class ItemController extends Controller
       $item->strength = $request->input('strength');
       $item->packaging = $request->input('packaging');
       $item->save();
-      echo "item has been Stored.";
-      return;
+      return response()->json(["success" => "success"]);
     }
 
     /**

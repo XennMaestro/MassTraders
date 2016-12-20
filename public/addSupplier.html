@@ -17,7 +17,7 @@
 
 <!--Header-part-->
 <div id="header">
-  <h1><a href="dashboard.html">Add Warehouse</a></h1>
+  <h1><a href="dashboard.html">Add Supplier</a></h1>
 </div>
 <!--close-Header-part--> 
 
@@ -47,19 +47,40 @@
 <div id="content">
 <!--breadcrumbs-->
   <div id="content-header">
-    <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="addWarehouse.html" class="current">Add Warehouse</a></div>
-    <h1>Add Warehouse</h1>  
+    <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="addSupplier.html" class="current">Add Supplier</a></div>
+    <h1>Add Supplier</h1>  
     <hr>
   </div>
 <!--End-breadcrumbs-->
 
 <!--Action boxes-->
-  <div class="container">
+ <div class="container">
     <div class="quick-actions_homepage">
       <ul class="quick-actions">
-        <li class="bg_lg span12"> <a href="warehouseForm.html"> <i class="icon-home"></i>Add Warehouse</a> </li>
+        <li class="bg_lg span6"> <a href="supplierForm.html"> <i class="icon-plus"></i>Add Supplier</a> </li>
+        <li class="bg_lg span6"> <a href="deleteSupplier.html"> <i class="icon-minus"></i>Delete Supplier</a> </li>
+        <li class="bg_lg span6"> <a href="updateSupplier.html"> <i class="icon-pencil"></i>Update Supplier</a> </li>
       </ul>
     </div>
+ </div>
+  <hr>   
+ <div class="container" style="margin:25px;">
+  <h3>Vendor Table</h3>
+  <table class="table table-bordered" id="table" style="padding:0px; table-layout:fixed; width:1000px;">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Region</th>
+        <th>Phone</th>
+        <th>Hours of Activity</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table> 
  </div>
  <!--End-Action boxes--> 
 
@@ -110,6 +131,34 @@
 function resetMenu() {
    document.gomenu.selector.selectedIndex = 2;
 }
+</script>
+<script>
+    $.ajax(
+    {
+        type: "GET",
+        url: '/supplier',
+        dataType: "json",
+        cache: false,
+        success: function (data) {
+        for (i = 0; i < data.length; i++) {
+            tr = $('<tr/>');
+            tr.append("<td>" + data[i].id + "</td>");
+            tr.append("<td>" + data[i].name + "</td>");
+            tr.append("<td>" + data[i].address + "</td>");
+            tr.append("<td>" + data[i].region + "</td>");
+            tr.append("<td>" + data[i].phone + "</td>");
+            tr.append("<td>" + data[i].hoursofactivity + "</td>");
+            tr.append("<td>" + data[i].description + "</td>");
+            $('#table').append(tr);  
+            } 
+        },
+        
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            
+            alert(textStatus);
+        }
+    });
+    
 </script>
 </body>
 </html>

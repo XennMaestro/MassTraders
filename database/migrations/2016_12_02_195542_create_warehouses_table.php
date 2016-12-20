@@ -19,9 +19,9 @@ class CreateWarehousesTable extends Migration
             $table->string('name');
             $table->string('address');
             $table->string('region');
-            $table->integer('phone');
-            $table->integer('size');
-            $table->integer('capacity');
+            $table->double('phone');
+            $table->double('size');
+            $table->double('capacity');
             $table->string('hoursofactivity');
             $table->string('description');
         });

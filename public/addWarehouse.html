@@ -17,7 +17,7 @@
 
 <!--Header-part-->
 <div id="header">
-  <h1><a href="dashboard.html">Add Vendor</a></h1>
+  <h1><a href="dashboard.html">Add Warehouse</a></h1>
 </div>
 <!--close-Header-part--> 
 
@@ -47,20 +47,43 @@
 <div id="content">
 <!--breadcrumbs-->
   <div id="content-header">
-    <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="addVendor.html" class="current">Add Vendor</a></div>
-    <h1>Add Vendor</h1>  
+    <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="addWarehouse.html" class="current">Add Warehouse</a></div>
+    <h1>Add Warehouse</h1>  
     <hr>
   </div>
 <!--End-breadcrumbs-->
 
 <!--Action boxes-->
-  <div class="container">
+   <div class="container">
     <div class="quick-actions_homepage">
       <ul class="quick-actions">
-        <li class="bg_lg span12"> <a href="vendorForm.html"> <i class="icon-credit-card"></i>Add Vendor</a> </li>
+        <li class="bg_lg span6"> <a href="warehouseForm.html"> <i class="icon-plus"></i>Add Warehouses</a> </li>
+        <li class="bg_lg span6"> <a href="deleteWarehouse.html"> <i class="icon-minus"></i>Delete Warehouse</a> </li>
+        <li class="bg_lg span6"> <a href="updateWarehouse.html"> <i class="icon-pencil"></i>Update Warehouse</a> </li>
       </ul>
     </div>
  </div>
+ <hr>   
+ <div class="container" style="margin:25px;">
+  <h3>Warehouse Table</h3>
+  <table class="table table-bordered" id="table" style="padding:0px; table-layout:fixed; width:1000px;">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Region</th>
+        <th>Phone</th>
+        <th>Size</th>
+        <th>Capacity</th>
+        <th>Hours of Activity</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table> 
+ </div>     
  <!--End-Action boxes--> 
 
 <!--end-main-container-part-->
@@ -110,6 +133,36 @@
 function resetMenu() {
    document.gomenu.selector.selectedIndex = 2;
 }
+</script>
+<script>
+    $.ajax(
+    {
+        type: "GET",
+        url: '/warehouse',
+        dataType: "json",
+        cache: false,
+        success: function (data) {
+        for (i = 0; i < data.length; i++) {
+            tr = $('<tr/>');
+            tr.append("<td>" + data[i].id + "</td>");
+            tr.append("<td>" + data[i].name + "</td>");
+            tr.append("<td>" + data[i].address + "</td>");
+            tr.append("<td>" + data[i].region + "</td>");
+            tr.append("<td>" + data[i].phone + "</td>");
+            tr.append("<td>" + data[i].size + "</td>");
+            tr.append("<td>" + data[i].capacity + "</td>");
+            tr.append("<td>" + data[i].hoursofactivity + "</td>");
+            tr.append("<td>" + data[i].description + "</td>");
+            $('#table').append(tr);  
+            } 
+        },
+        
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            
+            alert(textStatus);
+        }
+    });
+    
 </script>
 </body>
 </html>

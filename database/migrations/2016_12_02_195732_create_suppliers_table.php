@@ -19,7 +19,7 @@ class CreateSuppliersTable extends Migration
             $table->string('name');
             $table->string('address');
             $table->string('region');
-            $table->integer('phone');
+            $table->double('phone');
             $table->string('hoursofactivity');
             $table->string('description');
         });

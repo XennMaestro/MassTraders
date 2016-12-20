@@ -80,9 +80,8 @@ class WarehouseController extends Controller
     public function destroy($id)
     {
       $warehouse = Warehouse::find($id);
-      if (empty($warehouse)){echo "No results For Matching"; return;}
+      if (empty($warehouse)){return;}
       $warehouse->delete();
-      echo "Item has been Deleted.";
       return;
     }
 }

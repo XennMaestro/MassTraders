@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+return File::get(public_path() . '/index.html');
 });
 
 
@@ -43,3 +43,22 @@ Route::get('vendor/{id}', 'VendorController@getByID');
 Route::post('vendor', 'VendorController@store');
 Route::put('vendor/{id}', 'VendorController@update');
 Route::delete('vendor/{id}', 'VendorController@destroy');
+
+//Routes for Order Entity
+Route::get('order', 'OrderController@index');
+Route::get('order/{id}', 'OrderController@getByID');
+Route::post('order', 'OrderController@store');
+Route::put('order/{id}', 'OrderController@update');
+Route::delete('order/{id}', 'OrderController@destroy');
+
+//Routes for Sale Entity
+Route::get('sale', 'SaleController@index');
+Route::get('sale/{id}', 'SaleController@getByID');
+Route::post('sale', 'SaleController@store');
+Route::put('sale/{id}', 'SaleController@update');
+Route::delete('sale/{id}', 'SaleController@destroy');
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');
