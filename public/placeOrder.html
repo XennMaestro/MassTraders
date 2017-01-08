@@ -35,10 +35,8 @@
 <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
   <ul>
     <li><a href="index.html"><i class="icon icon-home"></i> <span>Master Data</span></a> </li>
-    <li><a href="charts.html"><i class="icon icon-signal"></i> <span>Charts &amp; graphs</span></a> </li>
     <li class="active"><a href="waybills.html"><i class="icon icon-inbox"></i> <span>Waybills</span></a> </li>
-    <li><a href="recovery.html"><i class="icon icon-th"></i> <span>Recovery</span></a></li>
-    <li><a href="plan.html"><i class="icon icon-list-alt"></i> <span>Plan</span></a></li>
+    <li><a href="recovery.html"><i class="icon icon-th"></i> <span>Export Tables</span></a></li>
   </ul>
 </div>
 <!--sidebar-menu-->
@@ -58,10 +56,33 @@
   <div class="container">
     <div class="quick-actions_homepage">
       <ul class="quick-actions">
-        <li class="bg_lg span12"> <a href="orderForm.html"> <i class="icon-credit-card"></i>Place Order</a> </li>
+        <li class="bg_lg span6"> <a href="orderForm.html"> <i class="icon-plus"></i>Add Order</a> </li>
+        <li class="bg_lg span6"> <a href="deleteOrder.html"> <i class="icon-minus"></i>Delete Order</a> </li>
       </ul>
     </div>
  </div>
+ <hr>   
+ <div class="container" style="margin:25px;">
+  <h3>Order Table</h3>
+  <table class="table table-bordered" id="table" style="padding:0px; table-layout:fixed; width:1000px;">
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Warehouse ItemID</th>   
+        <th>Issuing Officer Name</th>
+        <th>Supply Company Name</th>
+        <th>Supply Officer Name</th>
+        <th>Number Of Items</th>
+        <th>Quantity Of Liters</th>
+        <th>Price Per Item</th>
+        <th>Total</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table> 
+ </div> 
  <!--End-Action boxes--> 
 
 <!--end-main-container-part-->
@@ -111,6 +132,37 @@
 function resetMenu() {
    document.gomenu.selector.selectedIndex = 2;
 }
-</script>
+</script>   
+<script>
+    $.ajax(
+    {
+        type: "GET",
+        url: '/order',
+        dataType: "json",
+        cache: false,
+        success: function (data) {
+        for (i = 0; i < data.length; i++) {
+            tr = $('<tr/>');
+            tr.append("<td>" + data[i].id + "</td>");
+            tr.append("<td>" + data[i].warehouseitem_id + "</td>");
+            tr.append("<td>" + data[i].issuingofficername + "</td>");
+            tr.append("<td>" + data[i].supplycompanyname + "</td>");
+            tr.append("<td>" + data[i].supplyofficername + "</td>");
+            tr.append("<td>" + data[i].numberofitems + "</td>");
+            tr.append("<td>" + data[i].quantityofliters + "</td>");
+            tr.append("<td>" + data[i].priceperitem + "</td>");
+            tr.append("<td>" + data[i].total + "</td>");
+            tr.append("<td>" + data[i].notes + "</td>");
+            $('#table').append(tr);  
+            } 
+        },
+        
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            
+            alert(textStatus);
+        }
+    });
+    
+</script>    
 </body>
 </html>

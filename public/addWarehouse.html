@@ -35,10 +35,8 @@
 <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
   <ul>
     <li class="active"><a href="index.html"><i class="icon icon-home"></i> <span>Master Data</span></a> </li>
-    <li><a href="charts.html"><i class="icon icon-signal"></i> <span>Charts &amp; graphs</span></a> </li>
     <li><a href="waybills.html"><i class="icon icon-inbox"></i> <span>Waybills</span></a> </li>
-    <li><a href="recovery.html"><i class="icon icon-th"></i> <span>Recovery</span></a></li>
-    <li><a href="plan.html"><i class="icon icon-list-alt"></i> <span>Plan</span></a></li>
+    <li><a href="recovery.html"><i class="icon icon-th"></i> <span>Export Tables</span></a></li>
   </ul>
 </div>
 <!--sidebar-menu-->
@@ -57,7 +55,7 @@
    <div class="container">
     <div class="quick-actions_homepage">
       <ul class="quick-actions">
-        <li class="bg_lg span6"> <a href="warehouseForm.html"> <i class="icon-plus"></i>Add Warehouses</a> </li>
+        <li class="bg_lg span6"> <a href="warehouseForm.html"> <i class="icon-plus"></i>Add Warehouse</a> </li>
         <li class="bg_lg span6"> <a href="deleteWarehouse.html"> <i class="icon-minus"></i>Delete Warehouse</a> </li>
         <li class="bg_lg span6"> <a href="updateWarehouse.html"> <i class="icon-pencil"></i>Update Warehouse</a> </li>
       </ul>
@@ -143,7 +141,8 @@ function resetMenu() {
         cache: false,
         success: function (data) {
         for (i = 0; i < data.length; i++) {
-            tr = $('<tr/>');
+            var link ='<tr onclick="document.location = \'addWarehouseItem.html?id='+data[i].id+'\';"/>'
+            tr = $(link);
             tr.append("<td>" + data[i].id + "</td>");
             tr.append("<td>" + data[i].name + "</td>");
             tr.append("<td>" + data[i].address + "</td>");
@@ -162,7 +161,6 @@ function resetMenu() {
             alert(textStatus);
         }
     });
-    
 </script>
 </body>
 </html>

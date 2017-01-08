@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Sale;
+use App\WarehouseItem;
+use DB;
 use Illuminate\Http\Request;
 
 class SaleController extends Controller
@@ -36,21 +38,33 @@ class SaleController extends Controller
       */
     public function store(Request $request)
     {
+      $id = $request->input('warehouseitem_id');
+      $quantityPurchased = $request->input('numberofitems');
+         
+      $warehouseitem = WarehouseItem::find($id);
+      if (empty($warehouseitem)){echo "No results For id " . $id; return;}
+      $previousQuantity= $warehouseitem->quantity;
+      $newQuantity= $previousQuantity - $quantityPurchased;     
+      $warehouseitem->quantity = $newQuantity;
+      $warehouseitem->save();
+      
+      echo "warehouse item quantity has been Updated. \n";  
+        
       $sale = new Sale;
       $sale->issuingofficername = $request->input('issuingofficername');
       $sale->vendorname = $request->input('vendorname');
       $sale->salesofficername = $request->input('salesofficername');
       $sale->recipientname = $request->input('recipientname');
-      $sale->warehouse = $request->input('warehouse');
-      $sale->numberofcartons = $request->input('numberofcartons');
-      $sale->quantityliters = $request->input('quantityliters');
+      $sale->numberofitems = $request->input('numberofitems');
+      $sale->quantityofliters = $request->input('quantityofliters');
       $sale->priceperitem = $request->input('priceperitem');
       $sale->total = $request->input('total');
       $sale->amountpaid = $request->input('amountpaid');
       $sale->notes = $request->input('notes');
+      $sale->warehouseitem_id = $request->input('warehouseitem_id');
       $sale->save();
       echo "item has been Stored.";
-      return;
+      return;   
     }
 
     /**
@@ -62,17 +76,7 @@ class SaleController extends Controller
     {
       $sale = Sale::find($id);
       if (empty($sale)){echo "no results found"; return;}
-      $sale->issuingofficername = $request->input('issuingofficername');
-      $sale->vendorname = $request->input('vendorname');
-      $sale->salesofficername = $request->input('salesofficername');
-      $sale->recipientname = $request->input('recipientname');
-      $sale->warehouse = $request->input('warehouse');
-      $sale->numberofcartons = $request->input('numberofcartons');
-      $sale->quantityliters = $request->input('quantityliters');
-      $sale->priceperitem = $request->input('priceperitem');
-      $sale->total = $request->input('total');
       $sale->amountpaid = $request->input('amountpaid');
-      $sale->notes = $request->input('notes');
       $sale->save();
       echo "Item has been updated.";
       return;
@@ -87,6 +91,17 @@ class SaleController extends Controller
     {
       $sale = Sale::find($id);
       if (empty($sale)){echo "No results For Matching"; return;}
+      
+      $warehouseID= $sale->warehouseitem_id;
+    
+      $warehouseitem = WarehouseItem::find($warehouseID);
+      if (empty($warehouseitem)){echo "No results For id " . $id; return;} 
+      $purchasedQuantity = $sale->numberofitems;
+      $existingQuantity = $warehouseitem->quantity;    
+      $newQuantity = $existingQuantity + $purchasedQuantity;
+      $warehouseitem->quantity = $newQuantity; 
+      $warehouseitem->save();  
+        
       $sale->delete();
       echo "Item has been Deleted.";
       return;

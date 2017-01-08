@@ -20,13 +20,16 @@ class CreateSalesTable extends Migration
             $table->string('vendorname');
             $table->string('salesofficername');
             $table->string('recipientname');
-            $table->string('warehouse');
-            $table->double('numberofcartons');
-            $table->double('quantityliters');
+            $table->double('numberofitems');
+            $table->double('quantityofliters');
             $table->double('priceperitem');
             $table->double('total');
             $table->double('amountpaid');
             $table->string('notes');
+            $table->integer('warehouseitem_id')->unsigned();
+            $table->foreign('warehouseitem_id')
+            ->references('id')->on('warehouses')
+            ->onDelete('cascade');    
         });
     }
 

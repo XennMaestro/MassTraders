@@ -17,7 +17,7 @@
 
 <!--Header-part-->
 <div id="header">
-  <h1><a href="dashboard.html">Delete Item</a></h1>
+  <h1><a href="dashboard.html">Delete Order</a></h1>
 </div>
 <!--close-Header-part--> 
 
@@ -32,24 +32,21 @@
 <!--sidebar-menu-->
 <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
   <ul>
-    <li class="active"><a href="index.html"><i class="icon icon-home"></i> <span>Master Data</span></a> </li>
-    <li><a href="charts.html"><i class="icon icon-signal"></i> <span>Charts &amp; graphs</span></a> </li>
-    <li><a href="waybills.html"><i class="icon icon-inbox"></i> <span>Waybills</span></a> </li>
-    <li><a href="recovery.html"><i class="icon icon-th"></i> <span>Recovery</span></a></li>
-    <li><a href="plan.html"><i class="icon icon-list-alt"></i> <span>Plan</span></a></li>
+    <li><a href="index.html"><i class="icon icon-home"></i> <span>Master Data</span></a> </li>
+    <li class="active"><a href="waybills.html"><i class="icon icon-inbox"></i> <span>Waybills</span></a> </li>
+    <li><a href="recovery.html"><i class="icon icon-th"></i> <span>Export Tables</span></a></li>
   </ul>
 </div>
-<!--sidebar-menu-->
-
-
-    
+<!--sidebar-menu-->  
     
 <!--main-container-part-->    
 <div id="content">
 <!--breadcrumbs-->    
   <div id="content-header">
-    <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="addItem.html">Add Item</a> <a href="deleteItem.html" class="current">Delete Item</a> </div>
-    <h1>Delete Item</h1>
+    <div id="breadcrumb"> <a href="index.html" class="tip-bottom"><i class="icon-home"></i>Home</a> <a href="waybills.html" class="tip-bottom">Waybills</a><a href="placeOrder.html"  class="tip-bottom">Place Order</a>
+     <a href="deleteOrder.html" class="current">Delete Order</a></div>
+    <h1>Delete Order</h1>  
+    <hr>
   </div>
 <!--breadcrumbs-->    
   <div class="container-fluid"><hr>
@@ -57,14 +54,14 @@
       <div class="span12">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
-            <h5>Item Information</h5>
+            <h5>Delete Order</h5>
           </div>
           <div class="widget-content nopadding">
               
               
             <form class="form-horizontal" id="delete" name="delete">
               <div class="control-group">
-                <label class="control-label">ID</label>
+                <label class="control-label">Order ID</label>
                 <div class="controls">
                   <input type="text" id="id" name="id">
                 </div>
@@ -91,12 +88,13 @@ $(document).ready(function(){
     return false;
     }   
       var id= $('#id').val();
-      var deleteURL= "http://localhost:8000/item/" + id;
+      var deleteURL= "http://localhost:8000/order/" + id;
     $.ajax({
     url: deleteURL,
     type: 'DELETE',
     success: function(result) {
-        alert("Item Deleted. Please check for confirmation!!!");
+        alert("Order Deleted and WarehouseItem updated Please check for confirmation!!!");
+        window.history.back();
         }, 
         error: function(XMLHttpRequest, textStatus, errorThrown) { 
         alert(textStatus);

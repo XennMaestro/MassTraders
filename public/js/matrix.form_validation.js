@@ -81,6 +81,16 @@ $(document).ready(function(){
     
         $("#warehouse-validate").validate({
 		rules:{
+            strength:{
+				required:true
+			},
+            packaging:{
+				required:true
+			},
+            object_id:{
+				required:true,
+                number:true
+			},
             id:{
 				required:true,
                 number:true
@@ -88,30 +98,13 @@ $(document).ready(function(){
 			name:{
 				required:true
 			},
-            address:{
-				required:true
-			},
-			region:{
+			notes:{
 				required:true
             },
-            phone:{
+            quantity:{
 				required:true,
                 number:true
             },
-			size:{
-				required:true,
-                number:true
-            },
-            capacity:{
-				required:true,
-                number:true
-			},
-			hoursofactivity:{
-				required:true
-            },
-            description:{
-				required:true
-			}
 		},
 		errorClass: "help-inline",
 		errorElement: "span",
@@ -123,6 +116,107 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		}
 	});
+    
+    
+            $("#order-validate").validate({
+		rules:{
+            issuingofficername:{
+				required:true
+			},
+            supplycompanyname:{
+				required:true
+			},
+            supplyofficername:{
+				required:true,
+			},
+            warehouseitemid:{
+				required:true,
+                number:true
+			},
+			numberofitems:{
+				required:true,
+                number:true
+			},
+			quantityofliters:{
+				required:true,
+                number:true
+            },
+            priceperitem:{
+				required:true,
+                number:true
+            },
+            total:{
+				required:true,
+                number:true
+            },
+            notes:{
+				required:true,
+            },
+		},
+		errorClass: "help-inline",
+		errorElement: "span",
+		highlight:function(element, errorClass, validClass) {
+			$(element).parents('.control-group').addClass('error');
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).parents('.control-group').removeClass('error');
+			$(element).parents('.control-group').addClass('success');
+		}
+	});
+    
+    $("#sale-validate").validate({
+		rules:{
+            issuingofficername:{
+				required:true
+			},
+            supplycompanyname:{
+				required:true
+			},
+            salesofficername:{
+				required:true,
+			},
+            warehouseitemid:{
+				required:true,
+                number:true
+			},
+			numberofitems:{
+				required:true,
+                number:true
+			},
+			quantityofliters:{
+				required:true,
+                number:true
+            },
+            priceperitem:{
+				required:true,
+                number:true
+            },
+            total:{
+				required:true,
+                number:true
+            },
+            notes:{
+				required:true,
+            },
+            amountpaid:{
+				required:true,
+                number:true
+            },
+            recipientname:{
+				required:true,
+            },
+		},
+		errorClass: "help-inline",
+		errorElement: "span",
+		highlight:function(element, errorClass, validClass) {
+			$(element).parents('.control-group').addClass('error');
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).parents('.control-group').removeClass('error');
+			$(element).parents('.control-group').addClass('success');
+		}
+	});
+    
     
         $("#vendor-validate").validate({
 		rules:{

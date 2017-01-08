@@ -17,7 +17,7 @@
 
 <!--Header-part-->
 <div id="header">
-  <h1><a href="dashboard.html">Recovery</a></h1>
+  <h1><a href="dashboard.html">Add Warehouse Item</a></h1>
 </div>
 <!--close-Header-part--> 
 
@@ -34,11 +34,9 @@
 <!--sidebar-menu-->
 <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
   <ul>
-    <li><a href="index.html"><i class="icon icon-home"></i> <span>Master Data</span></a> </li>
-    <li><a href="charts.html"><i class="icon icon-signal"></i> <span>Charts &amp; graphs</span></a> </li>
+    <li class="active"><a href="index.html"><i class="icon icon-home"></i> <span>Master Data</span></a> </li>
     <li><a href="waybills.html"><i class="icon icon-inbox"></i> <span>Waybills</span></a> </li>
-    <li class="active"><a href="recovery.html"><i class="icon icon-th"></i> <span>Recovery</span></a></li>
-    <li><a href="plan.html"><i class="icon icon-list-alt"></i> <span>Plan</span></a></li>
+    <li><a href="recovery.html"><i class="icon icon-th"></i> <span>Export Tables</span></a></li>
   </ul>
 </div>
 <!--sidebar-menu-->
@@ -47,21 +45,40 @@
 <div id="content">
 <!--breadcrumbs-->
   <div id="content-header">
-    <div id="breadcrumb"><a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="recovery.html" class="current">Recovery</a></div>
-    <h1>Recovery</h1>  
-    <hr>  
+    <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="addWarehouse.html" class="tip-bottom">Add Warehouse</a><a class="current">Add Warehouse Item</a></div>
+    <h1 id="pageTitle"></h1>  
+    <hr>
   </div>
 <!--End-breadcrumbs-->
 
 <!--Action boxes-->
-  <div class="container">
+   <div class="container">
     <div class="quick-actions_homepage">
       <ul class="quick-actions">
-        <li class="bg_lg span6"> <a href="charts.html"> <i class="icon-shopping-cart"></i>Orders</a> </li>
-        <li class="bg_lg span6"> <a href="form-common.html"> <i class="icon-barcode"></i>Sales</a> </li>
+        <li class="bg_lg span6"> <a onclick="addWarehouse()"> <i class="icon-plus"></i>Add Warehouse Item</a> </li>
+        <li class="bg_lg span6"> <a onclick="deleteWarehouse()"> <i class="icon-minus"></i>Delete Warehouse Item</a> </li>
+        <li class="bg_lg span6"> <a onclick="updateWarehouse()"> <i class="icon-pencil"></i>Update Warehouse Item</a> </li>
       </ul>
     </div>
  </div>
+ <hr>   
+ <div class="container" style="margin:25px;">
+  <h3 id="tableTitle"></h3>
+  <table class="table table-bordered" id="table" style="padding:0px; table-layout:fixed; width:1000px;">
+    <thead>
+      <tr>
+        <th>Warehouse Object ID</th>
+        <th>Product Name</th>
+        <th>Quantity</th>
+        <th>Strength</th>
+        <th>Packaging</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table> 
+ </div>     
  <!--End-Action boxes--> 
 
 <!--end-main-container-part-->
@@ -110,6 +127,69 @@
 // resets the menu selection upon entry to this page:
 function resetMenu() {
    document.gomenu.selector.selectedIndex = 2;
+}
+</script>
+<script>
+ var id = location.search.split('id=')[1] 
+ var warehouseURL= '/warehouse/' + id;
+ var warehouseItemURL = '/warehouseitem/' + id;
+ var warehouseItemFormURL = '/warehouseItemForm.html?id=' + id;
+ var warehouseDeleteItemURL = '/deleteWarehouseItem.html?id=' + id;
+ var warehouseUpdateItemURL = '/updateWarehouseItem.html?id=' + id;    
+
+    $.ajax(
+    {  
+        type: "GET",
+        url: warehouseURL,
+        dataType: "json",
+        cache: false,
+        success: function (data) {            
+             document.getElementById('pageTitle').innerHTML = data.name + " Item Storage";
+            
+             document.getElementById('tableTitle').innerHTML = data.name + " Item Table";
+
+        },
+        
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            
+            alert(textStatus);
+        }
+    });
+    
+    $.ajax(
+    {  
+        type: "GET",
+        url: warehouseItemURL,
+        dataType: "json",
+        cache: false,
+        success: function (data) {            
+        for (i = 0; i < data.length; i++) {
+            tr = $('<tr/>');
+            tr.append("<td>" + data[i].id + "</td>");
+            tr.append("<td>" + data[i].productname + "</td>");
+            tr.append("<td>" + data[i].strength + "</td>");
+            tr.append("<td>" + data[i].packaging + "</td>");
+            tr.append("<td>" + data[i].quantity + "</td>");
+            tr.append("<td>" + data[i].notes + "</td>");
+            $('#table').append(tr);  
+            } 
+        },
+        
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            
+            alert(textStatus);
+        }
+    });
+    
+    
+    function addWarehouse() {
+     window.location.href = warehouseItemFormURL;
+}
+    function deleteWarehouse() {
+     window.location.href = warehouseDeleteItemURL ;
+}
+    function updateWarehouse() {
+     window.location.href = warehouseUpdateItemURL ;
 }
 </script>
 </body>

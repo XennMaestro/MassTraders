@@ -58,7 +58,16 @@ Route::post('sale', 'SaleController@store');
 Route::put('sale/{id}', 'SaleController@update');
 Route::delete('sale/{id}', 'SaleController@destroy');
 
+//Routes for WarehouseItems Entity
+Route::get('warehouseitem', 'WarehouseItemController@index');
+Route::get('warehouseitem/{id}', 'WarehouseItemController@getByID');
+Route::post('warehouseitem', 'WarehouseItemController@store');
+Route::put('warehouseitem/{id}', 'WarehouseItemController@update');
+Route::delete('warehouseitem/{id}', 'WarehouseItemController@destroy');
+
+
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+
