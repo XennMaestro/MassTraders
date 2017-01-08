@@ -17,6 +17,7 @@ return File::get(public_path() . '/index.html');
 
 
 //Routes for Warehouse Entity
+Route::get('warehouse/excel', 'WarehouseController@excel');
 Route::get('warehouse', 'WarehouseController@index');
 Route::get('warehouse/{id}', 'WarehouseController@getByID');
 Route::post('warehouse', 'WarehouseController@store');
@@ -31,6 +32,7 @@ Route::put('item/{id}', 'ItemController@update');
 Route::delete('item/{id}', 'ItemController@destroy');
 
 //Routes for Supplier Entity
+Route::get('supplier/excel', 'SupplierController@excel');
 Route::get('supplier', 'SupplierController@index');
 Route::get('supplier/{id}', 'SupplierController@getByID');
 Route::post('supplier', 'SupplierController@store');
@@ -38,6 +40,7 @@ Route::put('supplier/{id}', 'SupplierController@update');
 Route::delete('supplier/{id}', 'SupplierController@destroy');
 
 //Routes for Vendor Entity
+Route::get('vendor/excel', 'VendorController@excel');
 Route::get('vendor', 'VendorController@index');
 Route::get('vendor/{id}', 'VendorController@getByID');
 Route::post('vendor', 'VendorController@store');
@@ -45,6 +48,7 @@ Route::put('vendor/{id}', 'VendorController@update');
 Route::delete('vendor/{id}', 'VendorController@destroy');
 
 //Routes for Order Entity
+Route::get('order/excel', 'OrderController@excel');
 Route::get('order', 'OrderController@index');
 Route::get('order/{id}', 'OrderController@getByID');
 Route::post('order', 'OrderController@store');
@@ -52,6 +56,7 @@ Route::put('order/{id}', 'OrderController@update');
 Route::delete('order/{id}', 'OrderController@destroy');
 
 //Routes for Sale Entity
+Route::get('sale/excel', 'SaleController@excel');
 Route::get('sale', 'SaleController@index');
 Route::get('sale/{id}', 'SaleController@getByID');
 Route::post('sale', 'SaleController@store');
@@ -59,6 +64,7 @@ Route::put('sale/{id}', 'SaleController@update');
 Route::delete('sale/{id}', 'SaleController@destroy');
 
 //Routes for WarehouseItems Entity
+Route::get('warehouseitem/excel', 'WarehouseItemController@excel');
 Route::get('warehouseitem', 'WarehouseItemController@index');
 Route::get('warehouseitem/{id}', 'WarehouseItemController@getByID');
 Route::post('warehouseitem', 'WarehouseItemController@store');

@@ -5,6 +5,7 @@ use App\Order;
 use App\WarehouseItem;
 use DB;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OrderController extends Controller
 {
@@ -111,5 +112,37 @@ class OrderController extends Controller
       $order->delete();
       echo "Item has been Deleted.";
       return;
+}
+    public function excel() {
+
+    $orders = Order::all();
+        
+    // Initialize the array which will be passed into the Excel
+    // generator.
+    $ordersArray = []; 
+
+    // Define the Excel spreadsheet headers
+    $ordersArray[] = ['id', 'created_at', 'updated_at', 'issuingofficername','supplycompanyname','supplyofficername', 'numberofitems', 'quantityofliters','priceperitem', 'total', 'notes', 'warehouseitem_id'];
+        
+    // Convert each member of the returned collection into an array,
+    // and append it to the payments array.
+    foreach ($orders as $order) {
+        $ordersArray[] = $order->toArray();
+    }
+
+    // Generate and return the spreadsheet
+    Excel::create('orders', function($excel) use ($ordersArray) {
+
+        // Set the spreadsheet title, creator, and description
+        $excel->setTitle('Orders');
+        $excel->setCreator('Laravel')->setCompany('Tariq Awan, Mass Traders');
+        $excel->setDescription('order file');
+
+        // Build the spreadsheet, passing in the payments array
+        $excel->sheet('sheet1', function($sheet) use ($ordersArray) {
+            $sheet->fromArray($ordersArray, null, 'A1', false, false);
+        });
+
+    })->download('xlsx');
 }
 }

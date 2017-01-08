@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Supplier;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SupplierController extends Controller
 {
@@ -82,4 +83,36 @@ class SupplierController extends Controller
       echo "Item has been Deleted.";
       return;
     }
+    
+    public function excel() {
+
+    $suppliers = Supplier::all();    
+    // Initialize the array which will be passed into the Excel
+    // generator.
+    $suppliersArray = []; 
+            
+    // Define the Excel spreadsheet headers
+    $suppliersArray[] = ['id', 'created_at', 'updated_at', 'name','address','region', 'phone', 'hoursofactivity', 'description',];
+
+    // Convert each member of the returned collection into an array,
+    // and append it to the payments array.
+    foreach ($suppliers as $supplier) {
+        $suppliersArray[] = $supplier->toArray();
+    }
+
+    // Generate and return the spreadsheet
+    Excel::create('suppliers', function($excel) use ($suppliersArray) {
+
+        // Set the spreadsheet title, creator, and description
+        $excel->setTitle('Suppliers');
+        $excel->setCreator('Laravel')->setCompany('Tariq Awan, Mass Traders');
+        $excel->setDescription('supplier file');
+
+        // Build the spreadsheet, passing in the payments array
+        $excel->sheet('sheet1', function($sheet) use ($suppliersArray) {
+            $sheet->fromArray($suppliersArray, null, 'A1', false, false);
+        });
+
+    })->download('xlsx');
+}
 }

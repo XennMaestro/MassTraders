@@ -5,6 +5,7 @@ use App\Sale;
 use App\WarehouseItem;
 use DB;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SaleController extends Controller
 {
@@ -105,5 +106,37 @@ class SaleController extends Controller
       $sale->delete();
       echo "Item has been Deleted.";
       return;
+}
+    public function excel() {
+
+    $sales = Sale::all();
+        
+    // Initialize the array which will be passed into the Excel
+    // generator.
+    $salesArray = []; 
+
+    // Define the Excel spreadsheet headers
+    $salesArray[] = ['id', 'created_at', 'updated_at', 'issuingofficername','vendorname','salesofficername', 'recipientname', 'numberofitems', 'quantityofliters','priceperitem', 'total','amountpaid', 'notes', 'warehouseitem_id'];
+
+    // Convert each member of the returned collection into an array,
+    // and append it to the payments array.
+    foreach ($sales as $sale) {
+        $salesArray[] = $sale->toArray();
+    }
+
+    // Generate and return the spreadsheet
+    Excel::create('sales', function($excel) use ($salesArray) {
+
+        // Set the spreadsheet title, creator, and description
+        $excel->setTitle('Sales');
+        $excel->setCreator('Laravel')->setCompany('Tariq Awan, Mass Traders');
+        $excel->setDescription('sale file');
+
+        // Build the spreadsheet, passing in the payments array
+        $excel->sheet('sheet1', function($sheet) use ($salesArray) {
+            $sheet->fromArray($salesArray, null, 'A1', false, false);
+        });
+
+    })->download('xlsx');
 }
 }

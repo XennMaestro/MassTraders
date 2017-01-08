@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 
 use App\Warehouse;
 use App\WarehouseItem;
+use Maatwebsite\Excel\Facades\Excel;
+
 class WarehouseItemController extends Controller
 {
  /**
@@ -82,4 +84,37 @@ class WarehouseItemController extends Controller
       echo "Item Deleted";
       return;
     }
+    
+    public function excel() {
+
+    $warehouseitems = WarehouseItem::all();  
+        
+    // Initialize the array which will be passed into the Excel
+    // generator.
+    $warehousesArray = []; 
+
+    // Define the Excel spreadsheet headers
+    $warehousesArray[] = ['id', 'created_at', 'updated_at', 'product name','strength','packaging', 'quantity', 'notes', 'warehouse ID',];
+
+    // Convert each member of the returned collection into an array,
+    // and append it to the payments array.
+    foreach ($warehouseitems as $warehouseitem) {
+        $warehousesArray[] = $warehouseitem->toArray();
+    }
+
+    // Generate and return the spreadsheet
+    Excel::create('warehouseitems', function($excel) use ($warehousesArray) {
+
+        // Set the spreadsheet title, creator, and description
+        $excel->setTitle('Warehouseitems');
+        $excel->setCreator('Laravel')->setCompany('Tariq Awan, Mass Traders');
+        $excel->setDescription('warehouseitems file');
+
+        // Build the spreadsheet, passing in the payments array
+        $excel->sheet('sheet1', function($sheet) use ($warehousesArray) {
+            $sheet->fromArray($warehousesArray, null, 'A1', false, false);
+        });
+
+    })->download('xlsx');
+}
 }
